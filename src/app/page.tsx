@@ -6,7 +6,7 @@ const categories = ["전체", "생활", "학습", "일과 생산성", "엔터테
 const shortcuts = [
   { title: "오늘의 날씨", description: "외출 전 날씨와 기온을 확인해요.", category: "생활", icon: "☀️", href: "https://www.weather.go.kr/" },
   { title: "지도와 길찾기", description: "장소를 찾고 이동 경로를 확인해요.", category: "생활", icon: "🧭", href: "https://map.naver.com/" },
-  { title: "맞춤법 검사", description: "문장을 더 자연스럽고 정확하게 다듬어요.", category: "학습", icon: "✍️", href: "https://speller.cs.pusan.ac.kr/" },
+  { title: "맞춤법 검사", description: "문장을 더 자연스럽고 정확하게 다듬어요.", category: "학습", icon: "✍️", href: "https://nara-speller.co.kr/speller/" },
   { title: "온라인 사전", description: "궁금한 단어의 뜻과 쓰임을 찾아봐요.", category: "학습", icon: "📖", href: "https://dict.naver.com/" },
   { title: "할 일 정리", description: "오늘 해야 할 일을 간단히 정리해요.", category: "일과 생산성", icon: "☑️", href: "https://calendar.google.com/" },
   { title: "계산기", description: "빠른 계산이 필요할 때 이용해요.", category: "일과 생산성", icon: "🔢", href: "https://www.google.com/search?q=calculator" },
