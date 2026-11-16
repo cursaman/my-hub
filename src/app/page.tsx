@@ -54,6 +54,8 @@ const shortcuts = [
   { title: "Spotify", description: "음악과 팟캐스트를 찾아 들어요.", category: "엔터테인먼트", icon: "🎵", href: "https://open.spotify.com/" },
   { title: "GitHub", description: "코드와 오픈소스 프로젝트를 살펴봐요.", category: "개발", icon: "🐙", href: "https://github.com/" },
   { title: "MDN Web Docs", description: "웹 기술과 개발 문서를 찾아봐요.", category: "개발", icon: "🧑‍💻", href: "https://developer.mozilla.org/ko/" },
+  { title: "Vercel", description: "웹 프로젝트를 배포하고 운영해요.", category: "개발", icon: "▲", href: "https://vercel.com/" },
+  { title: "Supabase", description: "앱 데이터베이스와 백엔드를 관리해요.", category: "개발", icon: "⚡", href: "https://supabase.com/" },
 ];
 
 export default function Home() {
