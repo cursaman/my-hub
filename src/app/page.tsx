@@ -3,6 +3,36 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 
 const categories = ["전체", "생활", "학습", "생산성", "공공·금융", "쇼핑", "뉴스", "여행", "엔터테인먼트", "개발"];
+const zodiacSigns = ["쥐", "소", "호랑이", "토끼", "용", "뱀", "말", "양", "원숭이", "닭", "개", "돼지"];
+const dailyQuotes = [
+  "작은 시작이 오늘의 방향을 바꿔요.",
+  "천천히 가도, 나에게 맞는 길이면 괜찮아요.",
+  "좋은 하루는 거창한 계획보다 작은 여유에서 시작돼요.",
+  "오늘 해낸 작은 일도 내일의 나를 돕는 발판이에요.",
+  "잠깐 멈춰 바라보면 새로운 길이 보일 수 있어요.",
+  "마음을 다해 고른 한 가지가 하루를 단단하게 만들어요.",
+  "잘 쉬는 것도 앞으로 나아가는 방법이에요.",
+  "익숙한 하루에도 반가운 발견은 숨어 있어요.",
+  "모든 것을 한 번에 하지 않아도 충분해요.",
+  "나만의 속도로 쌓은 시간이 결국 길을 만들어요.",
+  "오늘의 친절은 가장 가까운 나에게서 시작해도 좋아요.",
+  "한 걸음 내디뎠다면 이미 시작한 거예요.",
+];
+const zodiacMessages: Record<string, string> = {
+  "쥐": "눈치 빠른 감각이 빛나요. 좋은 정보를 발견하면 메모해 두세요.",
+  "소": "차근차근 해온 일이 힘을 발휘해요. 서두르지 말고 한 가지씩 마무리해요.",
+  "호랑이": "먼저 움직이면 기회가 따라와요. 작은 제안에도 귀 기울여 보세요.",
+  "토끼": "부드러운 말 한마디가 좋은 흐름을 만들어요. 편안한 대화를 나눠보세요.",
+  "용": "아이디어를 현실로 옮기기 좋은 날이에요. 첫 단계를 작게 잡아보세요.",
+  "뱀": "차분한 판단이 도움이 돼요. 결정 전 한 번 더 살펴보면 든든해요.",
+  "말": "활기가 도는 날이에요. 하고 싶었던 일을 가볍게 시작해 보세요.",
+  "양": "주변과 호흡을 맞추면 일이 수월해져요. 도움을 주고받아 보세요.",
+  "원숭이": "재치 있는 생각이 막힌 일을 풀어줄 수 있어요. 다른 방법도 시도해 보세요.",
+  "닭": "정리와 점검에 운이 따르는 날이에요. 미뤄둔 작은 일을 마쳐보세요.",
+  "개": "믿음직한 태도가 좋은 인연을 만들어요. 약속을 소중히 챙겨보세요.",
+  "돼지": "작은 즐거움을 누리기 좋은 날이에요. 좋아하는 것으로 기운을 채워요.",
+};
+const dailyMoods = ["작은 일부터 정리하면 좋은 흐름이 이어져요.", "가벼운 대화 속에서 뜻밖의 실마리를 찾을 수 있어요.", "새 일을 늘리기보다 해오던 것을 돌보면 편안해요.", "잠깐의 휴식이 다음 걸음을 더 가볍게 해줘요."];
 type Shortcut = { id?: string; title: string; description: string; category: string; icon: string; href: string };
 const shortcuts: Shortcut[] = [
   { title: "오늘의 날씨", description: "외출 전 날씨와 기온을 확인해요.", category: "생활", icon: "☀️", href: "https://www.weather.go.kr/" },
@@ -66,6 +96,9 @@ export default function Home() {
   const [visibleCount, setVisibleCount] = useState(12);
   const [favoriteIds, setFavoriteIds] = useState<string[]>(shortcuts.slice(0, 6).map((item) => item.href));
   const [customLinks, setCustomLinks] = useState<Shortcut[]>([]);
+  const [zodiac, setZodiac] = useState("소");
+  const [dayIndex, setDayIndex] = useState(0);
+  const [todayLabel, setTodayLabel] = useState("");
   const [storageReady, setStorageReady] = useState(false);
   const [editingFavorites, setEditingFavorites] = useState(false);
   const [addingLink, setAddingLink] = useState(false);
@@ -84,9 +117,10 @@ export default function Home() {
     try {
       const stored = window.localStorage.getItem("my-hub:personal-links:v1");
       if (stored) {
-        const data = JSON.parse(stored) as { favorites?: string[]; customLinks?: Shortcut[] };
+        const data = JSON.parse(stored) as { favorites?: string[]; customLinks?: Shortcut[]; zodiac?: string };
         if (Array.isArray(data.favorites)) setFavoriteIds(data.favorites);
         if (Array.isArray(data.customLinks)) setCustomLinks(data.customLinks);
+        if (typeof data.zodiac === "string" && zodiacSigns.includes(data.zodiac)) setZodiac(data.zodiac);
       }
     } catch {
       // Keep the starter links available if browser storage is unavailable or invalid.
@@ -96,13 +130,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const now = new Date();
+    const key = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+    setDayIndex(Array.from(key).reduce((total, character) => total + character.charCodeAt(0), 0));
+    setTodayLabel(new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" }).format(now));
+  }, []);
+
+  useEffect(() => {
     if (!storageReady) return;
     try {
-      window.localStorage.setItem("my-hub:personal-links:v1", JSON.stringify({ favorites: favoriteIds, customLinks }));
+      window.localStorage.setItem("my-hub:personal-links:v1", JSON.stringify({ favorites: favoriteIds, customLinks, zodiac }));
     } catch {
       // The page remains usable when browser storage is blocked or full.
     }
-  }, [favoriteIds, customLinks, storageReady]);
+  }, [favoriteIds, customLinks, zodiac, storageReady]);
 
   const toggleFavorite = (item: Shortcut) => {
     const id = getShortcutId(item);
@@ -147,7 +188,7 @@ export default function Home() {
     <main>
       <header className="topbar">
         <a className="brand" href="#home" aria-label="my-hub 홈"><span className="brand-mark">h</span>my-hub</a>
-        <nav aria-label="주요 메뉴"><a href="#favorites">즐겨찾기</a><a href="#shortcuts">모든 링크</a></nav>
+        <nav aria-label="주요 메뉴"><a href="#today">오늘의 운세</a><a href="#favorites">즐겨찾기</a><a href="#shortcuts">모든 링크</a></nav>
         <a className="header-link" href="#favorites">내 포털 <span>↗</span></a>
       </header>
 
@@ -165,6 +206,14 @@ export default function Home() {
       </section>
 
       <section className="welcome-strip" id="about"><span>어서 와요, 오늘의 여정은 여기서 시작돼요.</span><span>둘러보고 · 발견하고 · 나만의 속도로</span></section>
+
+      <section className="daily-wisdom" id="today">
+        <div className="daily-heading"><div><span className="eyebrow">A LITTLE NOTE FOR TODAY</span><h2>오늘의 마음 챙김</h2></div><span className="today-date">{todayLabel || "오늘"}</span></div>
+        <div className="daily-cards">
+          <article className="quote-card"><span className="daily-label">오늘의 한 문장 <i>✦</i></span><blockquote>“{dailyQuotes[dayIndex % dailyQuotes.length]}”</blockquote><small>my-hub가 전하는 오늘의 문장</small></article>
+          <article className="fortune-card"><div className="fortune-top"><span className="daily-label">오늘의 띠 운세</span><label className="zodiac-picker"><span className="sr-only">띠 선택</span><select value={zodiac} onChange={(event) => setZodiac(event.target.value)}>{zodiacSigns.map((sign) => <option key={sign} value={sign}>{sign}띠</option>)}</select></label></div><h3>{zodiac}띠, 오늘은</h3><p>{zodiacMessages[zodiac]} {dailyMoods[dayIndex % dailyMoods.length]}</p><small>가볍게 즐기는 오늘의 운세예요.</small></article>
+        </div>
+      </section>
 
       <section className="story" id="story">
         <div className="story-heading"><span className="eyebrow">THE STORY OF MY-HUB</span><h2>오늘도 이 문을 열면,<br /><em>필요한 곳이 기다리고 있어요.</em></h2><p>복잡한 인터넷을 헤매지 않도록, 나를 위한 작은 현관을 만들었어요.<br />마음 가는 문을 골라 오늘의 다음 장으로 넘어가 보세요.</p></div>
