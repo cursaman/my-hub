@@ -33,6 +33,11 @@ const zodiacMessages: Record<string, string> = {
   "돼지": "작은 즐거움을 누리기 좋은 날이에요. 좋아하는 것으로 기운을 채워요.",
 };
 const dailyMoods = ["작은 일부터 정리하면 좋은 흐름이 이어져요.", "가벼운 대화 속에서 뜻밖의 실마리를 찾을 수 있어요.", "새 일을 늘리기보다 해오던 것을 돌보면 편안해요.", "잠깐의 휴식이 다음 걸음을 더 가볍게 해줘요."];
+const storySlides = [
+  { chapter: "CHAPTER 01", title: "아침을 살펴요", description: "오늘의 날씨와 필요한 정보를 확인하며 하루의 문을 열어요.", image: "/hub-art/morning-door.svg", alt: "햇살이 비치는 작은 현관" },
+  { chapter: "CHAPTER 02", title: "나만의 길을 골라요", description: "배우고, 정리하고, 쉬어갈 곳까지 한눈에 찾아요.", image: "/hub-art/connected-doors.svg", alt: "여러 서비스로 이어지는 허브" },
+  { chapter: "CHAPTER 03", title: "가벼운 마음으로 떠나요", description: "작은 바로가기 하나가 오늘의 좋은 흐름이 되도록.", image: "/hub-art/personal-desk.svg", alt: "나만의 바로가기가 정리된 책상" },
+];
 type Shortcut = { id?: string; title: string; description: string; category: string; icon: string; href: string };
 const shortcuts: Shortcut[] = [
   { title: "오늘의 날씨", description: "외출 전 날씨와 기온을 확인해요.", category: "생활", icon: "☀️", href: "https://www.weather.go.kr/" },
@@ -99,6 +104,9 @@ export default function Home() {
   const [zodiac, setZodiac] = useState("소");
   const [dayIndex, setDayIndex] = useState(0);
   const [todayLabel, setTodayLabel] = useState("");
+  const [activeStory, setActiveStory] = useState(0);
+  const [storyHovered, setStoryHovered] = useState(false);
+  const [storyFocused, setStoryFocused] = useState(false);
   const [storageReady, setStorageReady] = useState(false);
   const [editingFavorites, setEditingFavorites] = useState(false);
   const [addingLink, setAddingLink] = useState(false);
@@ -135,6 +143,12 @@ export default function Home() {
     setDayIndex(Array.from(key).reduce((total, character) => total + character.charCodeAt(0), 0));
     setTodayLabel(new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" }).format(now));
   }, []);
+
+  useEffect(() => {
+    if (storyHovered || storyFocused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => setActiveStory((current) => (current + 1) % storySlides.length), 5000);
+    return () => window.clearInterval(timer);
+  }, [storyHovered, storyFocused]);
 
   useEffect(() => {
     if (!storageReady) return;
@@ -217,10 +231,11 @@ export default function Home() {
 
       <section className="story" id="story">
         <div className="story-heading"><span className="eyebrow">THE STORY OF MY-HUB</span><h2>오늘도 이 문을 열면,<br /><em>필요한 곳이 기다리고 있어요.</em></h2><p>복잡한 인터넷을 헤매지 않도록, 나를 위한 작은 현관을 만들었어요.<br />마음 가는 문을 골라 오늘의 다음 장으로 넘어가 보세요.</p></div>
-        <div className="story-steps">
-          <article><span className="chapter">CHAPTER 01</span><img className="chapter-art" src="/hub-art/morning-door.svg" alt="햇살이 비치는 작은 현관"/><h3>아침을 살펴요</h3><p>오늘의 날씨와 필요한 정보를 확인하며 하루의 문을 열어요.</p></article>
-          <article><span className="chapter">CHAPTER 02</span><img className="chapter-art" src="/hub-art/connected-doors.svg" alt="여러 서비스로 이어지는 허브"/><h3>나만의 길을 골라요</h3><p>배우고, 정리하고, 쉬어갈 곳까지 한눈에 찾아요.</p></article>
-          <article><span className="chapter">CHAPTER 03</span><img className="chapter-art" src="/hub-art/personal-desk.svg" alt="나만의 바로가기가 정리된 책상"/><h3>가벼운 마음으로 떠나요</h3><p>작은 바로가기 하나가 오늘의 좋은 흐름이 되도록.</p></article>
+        <div className="story-carousel" role="region" aria-roledescription="carousel" aria-label="my-hub 이야기" onMouseEnter={() => setStoryHovered(true)} onMouseLeave={() => setStoryHovered(false)} onFocus={() => setStoryFocused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setStoryFocused(false); }}>
+          <article className="story-slide" key={activeStory} role="group" aria-roledescription="slide" aria-label={`${activeStory + 1} / ${storySlides.length}`}>
+            <img src={storySlides[activeStory].image} alt={storySlides[activeStory].alt} />
+            <div className="story-slide-copy"><span className="chapter">{storySlides[activeStory].chapter}</span><h3>{storySlides[activeStory].title}</h3><p>{storySlides[activeStory].description}</p><div className="story-slide-controls"><button type="button" aria-label="이전 이야기" onClick={() => setActiveStory((current) => (current - 1 + storySlides.length) % storySlides.length)}>←</button><div className="story-dots">{storySlides.map((slide, index) => <button type="button" key={slide.chapter} className={index === activeStory ? "active" : ""} aria-label={`${index + 1}번째 이야기 보기`} aria-current={index === activeStory ? "true" : undefined} onClick={() => setActiveStory(index)} />)}</div><button type="button" aria-label="다음 이야기" onClick={() => setActiveStory((current) => (current + 1) % storySlides.length)}>→</button></div><span className="story-auto-note">5초마다 다음 장면으로 넘어가요</span></div>
+          </article>
         </div>
         <div className="story-ending"><span>“오늘은 어디부터 가볼까요?”</span><a href="#shortcuts">나의 다음 장 찾기 <b>↓</b></a></div>
       </section>
