@@ -9,10 +9,24 @@
   <path d="M280 222h88M324 178v88" stroke="#FFF3D9" stroke-width="2"/>
   <path d="M306 369v-46c0-10 8-18 18-18s18 8 18 18v46" fill="#C98660"/>
   <circle cx="328" cy="343" r="2.5" fill="#FBE3B5"/>
+  <path d="M231 369V218c0-69 45-119 93-132 48 13 93 63 93 132" stroke="#E8CDA9" stroke-width="7" stroke-linecap="round"/>
+  <path d="M260 249h128M260 278h128M260 307h128" stroke="#E5B878" stroke-opacity=".48" stroke-width="2"/>
+  <path d="M286 177c11-12 24-19 38-22m-58 40c4-7 8-13 13-18" stroke="#FFF8E9" stroke-linecap="round" stroke-width="3"/>
+  <path d="M297 369v-46c0-15 12-27 27-27s27 12 27 27v46" stroke="#9E6049" stroke-width="3"/>
+  <circle cx="349" cy="342" r="5" fill="#F5D39A" stroke="#A9674E" stroke-width="2"/>
+  <path d="M188 369h272l-21 18H210l-22-18Z" fill="#D5B38B"/>
+  <path d="M207 388h234l-15 13H222l-15-13Z" fill="#C1946D"/>
   <path d="M144 365c-20-28-13-65 17-81 10 20 6 38-1 51 20-21 46-18 57-5-18 27-39 37-73 35Z" fill="#747B5E"/>
   <path d="M143 361c-6-24-4-46 8-66m8 67c10-21 27-38 49-44" stroke="#EEE2CF" stroke-linecap="round" stroke-width="3"/>
+  <path d="M123 366h69l-8 28h-53l-8-28Z" fill="#C77D58"/><path d="M126 372h63" stroke="#E6B387" stroke-width="4"/>
+  <path d="M170 339c-9-13-8-28 2-39 9 12 10 25-2 39Zm22 12c-2-15 7-27 21-31 1 15-7 26-21 31Z" fill="#8E9A6D"/>
   <path d="M445 369c-17-23-12-53 12-67 8 17 5 32-1 43 16-18 38-16 47-4-15 23-32 31-58 28Z" fill="#8E8B68"/>
   <path d="M444 366c-5-20-4-38 6-55m7 56c9-17 23-31 40-36" stroke="#EEE2CF" stroke-linecap="round" stroke-width="3"/>
+  <path d="M446 374h66l-8 26h-51l-7-26Z" fill="#D6A26D"/><path d="M449 380h60" stroke="#EACB9F" stroke-width="4"/>
+  <path d="M481 349c-9-13-8-28 2-39 9 12 10 25-2 39Zm21 9c-2-15 7-27 21-31 1 15-7 26-21 31Z" fill="#A5A378"/>
+  <path d="M282 96c13-14 28-23 42-27 14 4 29 13 42 27" stroke="#F4E8D7" stroke-width="2" stroke-linecap="round"/>
+  <path d="M181 220c5-8 12-12 20-12m255 28c7-6 14-8 22-7" stroke="#C98B61" stroke-linecap="round" stroke-width="3"/>
+  <circle cx="226" cy="167" r="4" fill="#D69A64"/><circle cx="429" cy="167" r="5" fill="#A5A078"/><circle cx="411" cy="291" r="3" fill="#C87C58"/>
   <path d="m158 150 7-16 7 16 16 7-16 7-7 16-7-16-16-7 16-7Z" fill="#BF7C56"/>
   <path d="m472 196 5-11 5 11 11 5-11 5-5 11-5-11-11-5 11-5Z" fill="#A39D74"/>
   <ellipse cx="324" cy="391" rx="175" ry="16" fill="#947051" fill-opacity=".12"/>
