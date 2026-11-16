@@ -218,9 +218,9 @@ export default function Home() {
       <section className="story" id="story">
         <div className="story-heading"><span className="eyebrow">THE STORY OF MY-HUB</span><h2>오늘도 이 문을 열면,<br /><em>필요한 곳이 기다리고 있어요.</em></h2><p>복잡한 인터넷을 헤매지 않도록, 나를 위한 작은 현관을 만들었어요.<br />마음 가는 문을 골라 오늘의 다음 장으로 넘어가 보세요.</p></div>
         <div className="story-steps">
-          <article><span className="chapter">CHAPTER 01</span><span className="chapter-icon">☀</span><h3>아침을 살펴요</h3><p>오늘의 날씨와 필요한 정보를 확인하며 하루의 문을 열어요.</p></article>
-          <article><span className="chapter">CHAPTER 02</span><span className="chapter-icon">⌁</span><h3>나만의 길을 골라요</h3><p>배우고, 정리하고, 쉬어갈 곳까지 한눈에 찾아요.</p></article>
-          <article><span className="chapter">CHAPTER 03</span><span className="chapter-icon">✦</span><h3>가벼운 마음으로 떠나요</h3><p>작은 바로가기 하나가 오늘의 좋은 흐름이 되도록.</p></article>
+          <article><span className="chapter">CHAPTER 01</span><img className="chapter-art" src="/hub-art/morning-door.svg" alt="햇살이 비치는 작은 현관"/><h3>아침을 살펴요</h3><p>오늘의 날씨와 필요한 정보를 확인하며 하루의 문을 열어요.</p></article>
+          <article><span className="chapter">CHAPTER 02</span><img className="chapter-art" src="/hub-art/connected-doors.svg" alt="여러 서비스로 이어지는 허브"/><h3>나만의 길을 골라요</h3><p>배우고, 정리하고, 쉬어갈 곳까지 한눈에 찾아요.</p></article>
+          <article><span className="chapter">CHAPTER 03</span><img className="chapter-art" src="/hub-art/personal-desk.svg" alt="나만의 바로가기가 정리된 책상"/><h3>가벼운 마음으로 떠나요</h3><p>작은 바로가기 하나가 오늘의 좋은 흐름이 되도록.</p></article>
         </div>
         <div className="story-ending"><span>“오늘은 어디부터 가볼까요?”</span><a href="#shortcuts">나의 다음 장 찾기 <b>↓</b></a></div>
       </section>
