@@ -214,8 +214,13 @@ export default function Home() {
           <a className="primary-button" href="#favorites">오늘의 문 열기 <span>↓</span></a>
           <div className="hero-caption"><span>매일 아침, 나를 위한 작은 출발</span><span>OPEN A NEW DAY</span></div>
         </div>
-        <div className="hero-visual" aria-hidden="true">
-          <img className="hub-artwork" src="/hub-illustration.svg" alt="" />
+        <div className="hero-visual">
+          <div className="story-carousel hero-carousel" role="region" aria-roledescription="carousel" aria-label="my-hub 이야기 이미지" onMouseEnter={() => setStoryHovered(true)} onMouseLeave={() => setStoryHovered(false)} onFocus={() => setStoryFocused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setStoryFocused(false); }}>
+            <article className="story-slide" key={activeStory} role="group" aria-roledescription="slide" aria-label={`${activeStory + 1} / ${storySlides.length}`}>
+              <img src={storySlides[activeStory].image} alt={storySlides[activeStory].alt} />
+              <div className="story-slide-copy"><span className="chapter">{storySlides[activeStory].chapter}</span><h3>{storySlides[activeStory].title}</h3><p>{storySlides[activeStory].description}</p><div className="story-slide-controls"><button type="button" aria-label="이전 이미지" onClick={() => setActiveStory((current) => (current - 1 + storySlides.length) % storySlides.length)}>←</button><div className="story-dots">{storySlides.map((slide, index) => <button type="button" key={slide.chapter} className={index === activeStory ? "active" : ""} aria-label={`${index + 1}번째 이미지 보기`} aria-current={index === activeStory ? "true" : undefined} onClick={() => setActiveStory(index)} />)}</div><button type="button" aria-label="다음 이미지" onClick={() => setActiveStory((current) => (current + 1) % storySlides.length)}>→</button></div><span className="story-auto-note">5초마다 다음 장면으로 넘어가요</span></div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -227,17 +232,6 @@ export default function Home() {
           <article className="quote-card"><span className="daily-label">오늘의 한 문장 <i>✦</i></span><blockquote>“{dailyQuotes[dayIndex % dailyQuotes.length]}”</blockquote><small>my-hub가 전하는 오늘의 문장</small></article>
           <article className="fortune-card"><div className="fortune-top"><span className="daily-label">오늘의 띠 운세</span><label className="zodiac-picker"><span className="sr-only">띠 선택</span><select value={zodiac} onChange={(event) => setZodiac(event.target.value)}>{zodiacSigns.map((sign) => <option key={sign} value={sign}>{sign}띠</option>)}</select></label></div><h3>{zodiac}띠, 오늘은</h3><p>{zodiacMessages[zodiac]} {dailyMoods[dayIndex % dailyMoods.length]}</p><small>가볍게 즐기는 오늘의 운세예요.</small></article>
         </div>
-      </section>
-
-      <section className="story" id="story">
-        <div className="story-heading"><span className="eyebrow">THE STORY OF MY-HUB</span><h2>오늘도 이 문을 열면,<br /><em>필요한 곳이 기다리고 있어요.</em></h2><p>복잡한 인터넷을 헤매지 않도록, 나를 위한 작은 현관을 만들었어요.<br />마음 가는 문을 골라 오늘의 다음 장으로 넘어가 보세요.</p></div>
-        <div className="story-carousel" role="region" aria-roledescription="carousel" aria-label="my-hub 이야기" onMouseEnter={() => setStoryHovered(true)} onMouseLeave={() => setStoryHovered(false)} onFocus={() => setStoryFocused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setStoryFocused(false); }}>
-          <article className="story-slide" key={activeStory} role="group" aria-roledescription="slide" aria-label={`${activeStory + 1} / ${storySlides.length}`}>
-            <img src={storySlides[activeStory].image} alt={storySlides[activeStory].alt} />
-            <div className="story-slide-copy"><span className="chapter">{storySlides[activeStory].chapter}</span><h3>{storySlides[activeStory].title}</h3><p>{storySlides[activeStory].description}</p><div className="story-slide-controls"><button type="button" aria-label="이전 이야기" onClick={() => setActiveStory((current) => (current - 1 + storySlides.length) % storySlides.length)}>←</button><div className="story-dots">{storySlides.map((slide, index) => <button type="button" key={slide.chapter} className={index === activeStory ? "active" : ""} aria-label={`${index + 1}번째 이야기 보기`} aria-current={index === activeStory ? "true" : undefined} onClick={() => setActiveStory(index)} />)}</div><button type="button" aria-label="다음 이야기" onClick={() => setActiveStory((current) => (current + 1) % storySlides.length)}>→</button></div><span className="story-auto-note">5초마다 다음 장면으로 넘어가요</span></div>
-          </article>
-        </div>
-        <div className="story-ending"><span>“오늘은 어디부터 가볼까요?”</span><a href="#shortcuts">나의 다음 장 찾기 <b>↓</b></a></div>
       </section>
 
       <section className="favorites-section" id="favorites">
