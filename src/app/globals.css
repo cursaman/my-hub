@@ -34,3 +34,5 @@ body{background:var(--paper);color:var(--ink)}
 .no-results{background:#fffaf4;color:#82786c;border:1px solid #ebe1d5;border-radius:10px}
 .bottom-callout{background:linear-gradient(115deg,#655c43,#796649);color:#fffaf3}.bottom-callout .eyebrow{color:#efd4a5}.bottom-callout>a{background:#f0d7ad;color:#5b4b36;border-radius:4px}
 footer{background:#f7efe5}footer>span,footer>small{color:#928475}
+.hero-visual{height:410px}.hub-artwork{display:block;width:min(100%,520px);height:auto;filter:drop-shadow(0 22px 28px #7651370b)}
+@media(max-width:600px){.hero-visual{height:300px}.hub-artwork{width:min(100%,370px)}}

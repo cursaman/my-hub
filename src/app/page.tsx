@@ -39,11 +39,7 @@ export default function Home() {
           <div className="hero-caption"><span>매일 쓰는 웹의 새로운 시작</span><span>YOUR SPACE, YOUR WAY</span></div>
         </div>
         <div className="hero-visual" aria-hidden="true">
-          <div className="visual-ring ring-one" /><div className="visual-ring ring-two" />
-          <div className="visual-core"><span>h</span><small>YOUR HUB</small></div>
-          <div className="float-card card-weather"><span>☀️</span><div><b>오늘의 날씨</b><small>가볍게 확인하기</small></div></div>
-          <div className="float-card card-notes"><span>✦</span><div><b>필요한 곳으로</b><small>빠르고 간편하게</small></div></div>
-          <span className="visual-star star-one">✳</span><span className="visual-star star-two">✦</span>
+          <img className="hub-artwork" src="/hub-illustration.svg" alt="" />
         </div>
       </section>
 
