@@ -4,6 +4,12 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 
 const categories = ["전체", "생활", "학습", "생산성", "공공·금융", "쇼핑", "뉴스", "여행", "엔터테인먼트", "개발"];
 const zodiacSigns = ["쥐", "소", "호랑이", "토끼", "용", "뱀", "말", "양", "원숭이", "닭", "개", "돼지"];
+const zodiacTimes: Record<string, string> = {
+  "쥐": "자시 · 23:00–01:00", "소": "축시 · 01:00–03:00", "호랑이": "인시 · 03:00–05:00",
+  "토끼": "묘시 · 05:00–07:00", "용": "진시 · 07:00–09:00", "뱀": "사시 · 09:00–11:00",
+  "말": "오시 · 11:00–13:00", "양": "미시 · 13:00–15:00", "원숭이": "신시 · 15:00–17:00",
+  "닭": "유시 · 17:00–19:00", "개": "술시 · 19:00–21:00", "돼지": "해시 · 21:00–23:00",
+};
 const dailyQuotes = [
   "작은 시작이 오늘의 방향을 바꿔요.",
   "천천히 가도, 나에게 맞는 길이면 괜찮아요.",
@@ -225,6 +231,7 @@ export default function Home() {
     items: collection.links.map((href) => allLinks.find((item) => item.href === href)).filter((item): item is Shortcut => Boolean(item)),
   })), [allLinks]);
   const favorites = useMemo(() => favoriteIds.map((id) => allLinks.find((item) => getShortcutId(item) === id)).filter((item): item is Shortcut => Boolean(item)), [favoriteIds, allLinks]);
+  const zodiacYears = Array.from({ length: 5 }, (_, index) => 2020 + zodiacSigns.indexOf(zodiac) - (4 - index) * 12);
   const filtered = useMemo(() => allLinks.filter((item) =>
     (category === "전체" || item.category === category) &&
     `${item.title} ${item.description} ${item.category}`.toLowerCase().includes(query.toLowerCase())
@@ -360,7 +367,7 @@ export default function Home() {
         <div className="daily-heading"><div><span className="eyebrow">A LITTLE NOTE FOR TODAY</span><h2>오늘의 마음 챙김</h2></div><span className="today-date">{todayLabel || "오늘"}</span></div>
         <div className="daily-cards">
           <article className="quote-card"><span className="daily-label">오늘의 한 문장 <i>✦</i></span><blockquote>“{dailyQuotes[dayIndex % dailyQuotes.length]}”</blockquote><small>my-hub의 오리지널 문장 · 50개 순환</small></article>
-          <article className="fortune-card"><div className="fortune-top"><span className="daily-label">오늘의 띠 운세</span><label className="zodiac-picker"><span className="sr-only">띠 선택</span><select value={zodiac} onChange={(event) => setZodiac(event.target.value)}>{zodiacSigns.map((sign) => <option key={sign} value={sign}>{sign}띠</option>)}</select></label></div><h3>{zodiac}띠, 오늘은</h3><p>{zodiacMessages[zodiac]} {dailyFortunes[dayIndex % dailyFortunes.length]}</p><small>재미로 보는 50개 운세 문장 순환</small></article>
+          <article className="fortune-card"><div className="fortune-top"><span className="daily-label">오늘의 띠 운세</span><label className="zodiac-picker"><span className="sr-only">띠 선택</span><select value={zodiac} onChange={(event) => setZodiac(event.target.value)}>{zodiacSigns.map((sign) => <option key={sign} value={sign}>{sign}띠</option>)}</select></label></div><h3>{zodiac}띠, 오늘은</h3><div className="zodiac-detail"><span>{zodiacYears.join(" · ")}년생</span><span>{zodiacTimes[zodiac]}</span></div><p>{zodiacMessages[zodiac]} {dailyFortunes[dayIndex % dailyFortunes.length]}</p><small>띠 해는 음력 설을 기준으로 달라질 수 있어요. 운세는 재미로 봐주세요.</small></article>
         </div>
       </section>
 
