@@ -94,6 +94,9 @@ const shortcuts: Shortcut[] = [
   { title: "Supabase", description: "앱 데이터베이스와 백엔드를 관리해요.", category: "개발", icon: "⚡", href: "https://supabase.com/" },
 ];
 const getShortcutId = (item: Shortcut) => item.id ?? item.href;
+const storageKey = "my-hub:personal-links:v2";
+const legacyStorageKey = "my-hub:personal-links:v1";
+const maxFavorites = 9;
 const linkCollections = [
   { title: "아침 준비", description: "하루의 시작에 필요한 곳을 한데 모았어요.", icon: "☀️", links: ["https://www.weather.go.kr/", "https://map.naver.com/", "https://calendar.google.com/"] },
   { title: "공부 시작", description: "찾고, 번역하고, 배울 때 자주 쓰는 도구예요.", icon: "📚", links: ["https://dict.naver.com/", "https://papago.naver.com/", "https://www.kmooc.kr/"] },
@@ -105,7 +108,7 @@ export default function Home() {
   const [category, setCategory] = useState("전체");
   const [query, setQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(12);
-  const [favoriteIds, setFavoriteIds] = useState<string[]>(shortcuts.slice(0, 6).map((item) => item.href));
+  const [favoriteIds, setFavoriteIds] = useState<string[]>(shortcuts.slice(0, maxFavorites).map((item) => item.href));
   const [customLinks, setCustomLinks] = useState<Shortcut[]>([]);
   const [zodiac, setZodiac] = useState("소");
   const [dayIndex, setDayIndex] = useState(0);
@@ -120,6 +123,7 @@ export default function Home() {
   const [newUrl, setNewUrl] = useState("");
   const [newCategory, setNewCategory] = useState("생활");
   const [formError, setFormError] = useState("");
+  const [favoriteMessage, setFavoriteMessage] = useState("");
   const allLinks = useMemo(() => [...shortcuts, ...customLinks], [customLinks]);
   const collections = useMemo(() => linkCollections.map((collection) => ({
     ...collection,
@@ -133,10 +137,20 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const stored = window.localStorage.getItem("my-hub:personal-links:v1");
+      const currentStored = window.localStorage.getItem(storageKey);
+      const stored = currentStored ?? window.localStorage.getItem(legacyStorageKey);
       if (stored) {
         const data = JSON.parse(stored) as { favorites?: string[]; customLinks?: Shortcut[]; zodiac?: string };
-        if (Array.isArray(data.favorites)) setFavoriteIds(data.favorites);
+        if (Array.isArray(data.favorites)) {
+          const savedFavorites = data.favorites.slice(0, maxFavorites);
+          if (!currentStored) {
+            for (const item of shortcuts) {
+              if (savedFavorites.length >= maxFavorites) break;
+              if (!savedFavorites.includes(item.href)) savedFavorites.push(item.href);
+            }
+          }
+          setFavoriteIds(savedFavorites);
+        }
         if (Array.isArray(data.customLinks)) setCustomLinks(data.customLinks);
         if (typeof data.zodiac === "string" && zodiacSigns.includes(data.zodiac)) setZodiac(data.zodiac);
       }
@@ -163,7 +177,7 @@ export default function Home() {
   useEffect(() => {
     if (!storageReady) return;
     try {
-      window.localStorage.setItem("my-hub:personal-links:v1", JSON.stringify({ favorites: favoriteIds, customLinks, zodiac }));
+      window.localStorage.setItem(storageKey, JSON.stringify({ favorites: favoriteIds, customLinks, zodiac }));
     } catch {
       // The page remains usable when browser storage is blocked or full.
     }
@@ -171,7 +185,17 @@ export default function Home() {
 
   const toggleFavorite = (item: Shortcut) => {
     const id = getShortcutId(item);
-    setFavoriteIds((current) => current.includes(id) ? current.filter((savedId) => savedId !== id) : [...current, id]);
+    if (favoriteIds.includes(id)) {
+      setFavoriteIds((current) => current.filter((savedId) => savedId !== id));
+      setFavoriteMessage("");
+      return;
+    }
+    if (favoriteIds.length >= maxFavorites) {
+      setFavoriteMessage("즐겨찾기는 최대 9개까지 담을 수 있어요. 먼저 하나를 정리해 주세요.");
+      return;
+    }
+    setFavoriteIds((current) => [...current, id]);
+    setFavoriteMessage("");
   };
 
   const moveFavorite = (index: number, direction: -1 | 1) => {
@@ -193,7 +217,8 @@ export default function Home() {
       const item: Shortcut = { id: `custom-${Date.now()}`, title: newTitle.trim(), description: `${newCategory}에서 자주 찾는 나만의 링크예요.`, category: newCategory, icon: "🔗", href: parsedUrl.toString() };
       if (!item.title) throw new Error("링크 이름을 입력해 주세요.");
       setCustomLinks((current) => [...current, item]);
-      setFavoriteIds((current) => [...current, getShortcutId(item)]);
+      if (favoriteIds.length < maxFavorites) setFavoriteIds((current) => [...current, getShortcutId(item)]);
+      else setFavoriteMessage("링크는 저장했어요. 즐겨찾기 9개 중 하나를 정리하면 추가할 수 있어요.");
       setNewTitle("");
       setNewUrl("");
       setAddingLink(false);
@@ -245,7 +270,8 @@ export default function Home() {
       </section>
 
       <section className="favorites-section" id="favorites">
-        <div className="favorites-heading"><div><span className="eyebrow">YOUR PERSONAL HUB</span><h2>내가 고른 바로가기</h2><p>자주 가는 곳을 모아 나만의 첫 화면을 만들어요.</p></div><div className="favorite-actions"><button className="soft-button" onClick={() => setEditingFavorites((value) => !value)}>{editingFavorites ? "정리 끝" : "순서 정리"}</button><button className="add-button" onClick={() => { setAddingLink((value) => !value); setFormError(""); }}>{addingLink ? "닫기" : "+ 링크 추가"}</button></div></div>
+        <div className="favorites-heading"><div><span className="eyebrow">YOUR PERSONAL HUB</span><h2>내가 고른 바로가기</h2><p>자주 가는 곳을 최대 9개까지 모아보세요.</p></div><div className="favorite-actions"><button className="soft-button" onClick={() => setEditingFavorites((value) => !value)}>{editingFavorites ? "정리 끝" : "순서 정리"}</button><button className="add-button" onClick={() => { setAddingLink((value) => !value); setFormError(""); }}>{addingLink ? "닫기" : "+ 링크 추가"}</button></div></div>
+        {favoriteMessage && <p className="favorite-message" role="status">{favoriteMessage}</p>}
         {addingLink && <form className="add-link-form" onSubmit={addCustomLink}><label>링크 이름<input required maxLength={30} value={newTitle} onChange={(event) => setNewTitle(event.target.value)} placeholder="예: 나의 작업공간" /></label><label>웹사이트 주소<input required type="url" value={newUrl} onChange={(event) => setNewUrl(event.target.value)} placeholder="https://example.com" /></label><label>분류<select value={newCategory} onChange={(event) => setNewCategory(event.target.value)}>{categories.filter((item) => item !== "전체").map((item) => <option key={item}>{item}</option>)}</select></label><button className="add-button" type="submit">즐겨찾기에 추가</button>{formError && <p className="form-error" role="alert">{formError}</p>}</form>}
         {favorites.length > 0 ? <div className="favorite-grid">{favorites.map((item, index) => <article className="favorite-card" key={getShortcutId(item)}><a className="favorite-main" href={item.href} target="_blank" rel="noreferrer"><span className="favorite-icon">{item.icon}</span><span className="favorite-text"><small>{item.category}</small><strong>{item.title}</strong></span><span className="favorite-arrow">↗</span></a>{editingFavorites && <div className="favorite-controls"><button aria-label={`${item.title} 위로`} disabled={index === 0} onClick={() => moveFavorite(index, -1)}>↑</button><button aria-label={`${item.title} 아래로`} disabled={index === favorites.length - 1} onClick={() => moveFavorite(index, 1)}>↓</button><button aria-label={`${item.title} 즐겨찾기 해제`} onClick={() => toggleFavorite(item)}>×</button></div>}</article>)}</div> : <div className="favorites-empty"><span>✦</span><p>아직 즐겨찾기가 비어 있어요. 아래 목록에서 별표를 눌러 자주 가는 곳을 담아보세요.</p><a href="#shortcuts">링크 둘러보기 ↓</a></div>}
       </section>
