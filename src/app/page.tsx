@@ -94,6 +94,12 @@ const shortcuts: Shortcut[] = [
   { title: "Supabase", description: "앱 데이터베이스와 백엔드를 관리해요.", category: "개발", icon: "⚡", href: "https://supabase.com/" },
 ];
 const getShortcutId = (item: Shortcut) => item.id ?? item.href;
+const linkCollections = [
+  { title: "아침 준비", description: "하루의 시작에 필요한 곳을 한데 모았어요.", icon: "☀️", links: ["https://www.weather.go.kr/", "https://map.naver.com/", "https://calendar.google.com/"] },
+  { title: "공부 시작", description: "찾고, 번역하고, 배울 때 자주 쓰는 도구예요.", icon: "📚", links: ["https://dict.naver.com/", "https://papago.naver.com/", "https://www.kmooc.kr/"] },
+  { title: "개발과 배포", description: "코드 작성부터 배포와 백엔드까지 이어져요.", icon: "🛠️", links: ["https://github.com/", "https://vercel.com/", "https://supabase.com/"] },
+  { title: "생활 행정", description: "필요한 공공 서비스를 빠르게 찾아가요.", icon: "🏛️", links: ["https://www.gov.kr/", "https://www.hometax.go.kr/", "https://www.nhis.or.kr/"] },
+];
 
 export default function Home() {
   const [category, setCategory] = useState("전체");
@@ -115,6 +121,10 @@ export default function Home() {
   const [newCategory, setNewCategory] = useState("생활");
   const [formError, setFormError] = useState("");
   const allLinks = useMemo(() => [...shortcuts, ...customLinks], [customLinks]);
+  const collections = useMemo(() => linkCollections.map((collection) => ({
+    ...collection,
+    items: collection.links.map((href) => allLinks.find((item) => item.href === href)).filter((item): item is Shortcut => Boolean(item)),
+  })), [allLinks]);
   const favorites = useMemo(() => favoriteIds.map((id) => allLinks.find((item) => getShortcutId(item) === id)).filter((item): item is Shortcut => Boolean(item)), [favoriteIds, allLinks]);
   const filtered = useMemo(() => allLinks.filter((item) =>
     (category === "전체" || item.category === category) &&
@@ -202,7 +212,7 @@ export default function Home() {
     <main>
       <header className="topbar">
         <a className="brand" href="#home" aria-label="my-hub 홈"><span className="brand-mark">h</span>my-hub</a>
-        <nav aria-label="주요 메뉴"><a href="#today">오늘의 운세</a><a href="#favorites">즐겨찾기</a><a href="#shortcuts">모든 링크</a></nav>
+        <nav aria-label="주요 메뉴"><a href="#today">오늘의 운세</a><a href="#favorites">즐겨찾기</a><a href="#collections">상황별 모음</a><a href="#shortcuts">모든 링크</a></nav>
         <a className="header-link" href="#favorites">내 포털 <span>↗</span></a>
       </header>
 
@@ -238,6 +248,11 @@ export default function Home() {
         <div className="favorites-heading"><div><span className="eyebrow">YOUR PERSONAL HUB</span><h2>내가 고른 바로가기</h2><p>자주 가는 곳을 모아 나만의 첫 화면을 만들어요.</p></div><div className="favorite-actions"><button className="soft-button" onClick={() => setEditingFavorites((value) => !value)}>{editingFavorites ? "정리 끝" : "순서 정리"}</button><button className="add-button" onClick={() => { setAddingLink((value) => !value); setFormError(""); }}>{addingLink ? "닫기" : "+ 링크 추가"}</button></div></div>
         {addingLink && <form className="add-link-form" onSubmit={addCustomLink}><label>링크 이름<input required maxLength={30} value={newTitle} onChange={(event) => setNewTitle(event.target.value)} placeholder="예: 나의 작업공간" /></label><label>웹사이트 주소<input required type="url" value={newUrl} onChange={(event) => setNewUrl(event.target.value)} placeholder="https://example.com" /></label><label>분류<select value={newCategory} onChange={(event) => setNewCategory(event.target.value)}>{categories.filter((item) => item !== "전체").map((item) => <option key={item}>{item}</option>)}</select></label><button className="add-button" type="submit">즐겨찾기에 추가</button>{formError && <p className="form-error" role="alert">{formError}</p>}</form>}
         {favorites.length > 0 ? <div className="favorite-grid">{favorites.map((item, index) => <article className="favorite-card" key={getShortcutId(item)}><a className="favorite-main" href={item.href} target="_blank" rel="noreferrer"><span className="favorite-icon">{item.icon}</span><span className="favorite-text"><small>{item.category}</small><strong>{item.title}</strong></span><span className="favorite-arrow">↗</span></a>{editingFavorites && <div className="favorite-controls"><button aria-label={`${item.title} 위로`} disabled={index === 0} onClick={() => moveFavorite(index, -1)}>↑</button><button aria-label={`${item.title} 아래로`} disabled={index === favorites.length - 1} onClick={() => moveFavorite(index, 1)}>↓</button><button aria-label={`${item.title} 즐겨찾기 해제`} onClick={() => toggleFavorite(item)}>×</button></div>}</article>)}</div> : <div className="favorites-empty"><span>✦</span><p>아직 즐겨찾기가 비어 있어요. 아래 목록에서 별표를 눌러 자주 가는 곳을 담아보세요.</p><a href="#shortcuts">링크 둘러보기 ↓</a></div>}
+      </section>
+
+      <section className="link-collections" id="collections">
+        <div className="section-heading"><div><span className="eyebrow">A GOOD PLACE TO START</span><h2>상황에 맞게 모아봤어요</h2><p>자주 이어 쓰는 사이트를 한 번에 열어보세요.</p></div><span className="count">4 COLLECTIONS</span></div>
+        <div className="collection-grid">{collections.map((collection, index) => <article className={`collection-card collection-${index}`} key={collection.title}><div className="collection-title"><span>{collection.icon}</span><div><h3>{collection.title}</h3><p>{collection.description}</p></div></div><div className="collection-links">{collection.items.map((item) => <a href={item.href} target="_blank" rel="noreferrer" key={item.href}><span>{item.icon}</span><b>{item.title}</b><i>↗</i></a>)}</div></article>)}</div>
       </section>
 
       <section className="shortcuts" id="shortcuts">
