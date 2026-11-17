@@ -17,6 +17,44 @@ const dailyQuotes = [
   "나만의 속도로 쌓은 시간이 결국 길을 만들어요.",
   "오늘의 친절은 가장 가까운 나에게서 시작해도 좋아요.",
   "한 걸음 내디뎠다면 이미 시작한 거예요.",
+  "마음이 머무는 곳에 오늘의 답이 있어요.",
+  "비교 대신 어제의 나를 바라봐요.",
+  "깊게 숨을 쉬면 생각도 한결 맑아져요.",
+  "잘 모르겠다면 잠시 쉬어가도 괜찮아요.",
+  "정답보다 나다운 선택이 더 오래 빛나요.",
+  "작은 변화가 익숙한 풍경을 새롭게 만들어요.",
+  "너무 늦은 시작은 없어요.",
+  "오늘의 계획에 여백도 남겨두세요.",
+  "누군가의 속도보다 내 호흡을 따라가요.",
+  "마무리한 한 가지가 마음의 공간을 만들어요.",
+  "좋은 질문 하나가 새로운 문을 열어요.",
+  "따뜻한 말은 오래 기억되는 선물이 돼요.",
+  "실수는 다음 걸음을 알려주는 표지판이에요.",
+  "바쁜 날에도 물 한 잔의 여유를 챙겨요.",
+  "매일의 반복 속에서도 조금씩 자라고 있어요.",
+  "기다림도 준비의 한 부분일 수 있어요.",
+  "오늘 마음에 든 것을 조금 더 오래 바라봐요.",
+  "필요한 도움을 청하는 것도 용기예요.",
+  "하고 싶은 일도 오늘의 계획에 적어봐요.",
+  "평범한 하루를 돌보는 일이 큰 힘이 돼요.",
+  "작은 친절은 생각보다 멀리 퍼져요.",
+  "새로운 길은 익숙한 질문에서 시작돼요.",
+  "잠깐의 산책이 마음을 환기해줄 거예요.",
+  "끝내지 못한 일도 다시 시작할 수 있어요.",
+  "오늘 마음에 다정한 기준을 세워요.",
+  "경험은 천천히 나만의 지혜가 돼요.",
+  "눈앞의 한 걸음에 집중하면 충분해요.",
+  "쉼표를 찍어도 이야기는 계속돼요.",
+  "좋은 생각은 적어둘 때 더 가까워져요.",
+  "내가 고른 방향을 믿고 걸어가요.",
+  "서로 다른 생각이 더 나은 답을 만들어요.",
+  "오늘 만난 작은 기쁨을 기억해둬요.",
+  "완벽보다 꾸준함이 더 멀리 데려가요.",
+  "익숙함 속에서 새로운 즐거움을 찾아봐요.",
+  "마음이 복잡할 땐 가장 쉬운 일부터 해요.",
+  "다시 해보는 용기가 하루를 바꿔요.",
+  "작은 성공을 스스로 축하해 주세요.",
+  "당신의 속도에도 분명한 이유가 있어요.",
 ];
 const zodiacMessages: Record<string, string> = {
   "쥐": "눈치 빠른 감각이 빛나요. 좋은 정보를 발견하면 메모해 두세요.",
@@ -32,7 +70,58 @@ const zodiacMessages: Record<string, string> = {
   "개": "믿음직한 태도가 좋은 인연을 만들어요. 약속을 소중히 챙겨보세요.",
   "돼지": "작은 즐거움을 누리기 좋은 날이에요. 좋아하는 것으로 기운을 채워요.",
 };
-const dailyMoods = ["작은 일부터 정리하면 좋은 흐름이 이어져요.", "가벼운 대화 속에서 뜻밖의 실마리를 찾을 수 있어요.", "새 일을 늘리기보다 해오던 것을 돌보면 편안해요.", "잠깐의 휴식이 다음 걸음을 더 가볍게 해줘요."];
+const dailyFortunes = [
+  "작은 제안이나 새 소식이 눈에 띄는 날이에요. 조건을 찬찬히 살펴보세요.",
+  "미뤄둔 일을 하나 마치면 마음이 한결 가벼워질 거예요.",
+  "주변 사람의 이야기에 귀 기울이면 좋은 실마리를 얻을 수 있어요.",
+  "서두르기보다 순서를 정하면 일이 매끄럽게 풀려요.",
+  "새로운 만남보다 익숙한 인연을 챙기면 따뜻한 하루예요.",
+  "배움에 좋은 기운이 있어요. 궁금했던 것을 찾아보세요.",
+  "작은 정리가 생각보다 큰 여유를 만들어줘요.",
+  "계획을 조금 느슨하게 잡으면 예상 밖의 즐거움이 생겨요.",
+  "오늘은 듣는 쪽에 머물러도 충분히 좋은 대화를 나눌 수 있어요.",
+  "꾸준히 해오던 일에서 작은 진전을 발견할 수 있어요.",
+  "새로운 방법을 하나 시도해보면 막힌 흐름이 달라질 수 있어요.",
+  "가까운 사람에게 먼저 안부를 건네보세요.",
+  "작은 선택도 충분히 의미 있어요. 마음이 편한 쪽을 골라보세요.",
+  "휴식이 필요한 날이에요. 잠깐의 여유를 일정에 넣어보세요.",
+  "아이디어가 떠오르면 짧게라도 기록해 두세요.",
+  "도움이 필요하면 편하게 손을 내밀어도 괜찮아요.",
+  "차분히 확인하는 태도가 실수를 줄여줘요.",
+  "오늘의 대화에서 새로운 관점을 만날 수 있어요.",
+  "작은 성취를 알아차리면 자신감이 자라요.",
+  "익숙한 길에서 반가운 발견을 할 수 있는 날이에요.",
+  "마무리와 정리에 좋은 흐름이 있어요.",
+  "가벼운 산책이나 환기가 기분 전환에 도움이 돼요.",
+  "오래 고민한 일은 기준을 적어보면 결정이 쉬워져요.",
+  "주변의 친절을 기쁘게 받아들이고 고마움을 표현해보세요.",
+  "작은 호기심을 따라가면 유용한 정보를 만날 수 있어요.",
+  "오늘은 한 번에 하나씩 집중하는 편이 좋아요.",
+  "새로운 소식은 확인한 뒤 천천히 판단해도 늦지 않아요.",
+  "함께하는 일에서 좋은 호흡을 맞출 수 있어요.",
+  "가벼운 정돈이 다음 계획을 세우는 데 도움을 줘요.",
+  "마음에 둔 목표를 아주 작은 단계로 시작해보세요.",
+  "평소 지나쳤던 곳에서 기분 좋은 변화를 발견할 수 있어요.",
+  "고민을 나누면 생각이 정리될 수 있어요.",
+  "오늘은 속도보다 방향을 점검하는 데 좋은 날이에요.",
+  "새로운 도구나 정보를 익혀두면 나중에 도움이 돼요.",
+  "뜻밖의 칭찬이나 고마운 말을 들을 수 있어요.",
+  "몸과 마음의 리듬을 살피며 무리하지 않도록 해요.",
+  "정직하고 단순한 선택이 마음을 편안하게 해줘요.",
+  "작은 약속을 지키면 신뢰가 한층 단단해져요.",
+  "잠시 멈추면 놓쳤던 좋은 생각이 떠오를 수 있어요.",
+  "반복되는 일에서 더 나은 방법을 찾을 수 있어요.",
+  "좋아하는 일에 짧은 시간을 내어 기운을 채워보세요.",
+  "하나를 내려놓으면 중요한 일에 집중하기 쉬워져요.",
+  "기다리던 답이 늦어져도 오늘 할 수 있는 일을 해보세요.",
+  "작은 호의가 좋은 기분으로 돌아오는 날이에요.",
+  "새로운 계획은 충분히 살펴본 뒤 가볍게 첫발을 떼세요.",
+  "자신의 경험을 믿되, 다른 의견도 열어두면 좋아요.",
+  "뜻밖의 여유가 생기면 잠깐 쉬어가도 좋아요.",
+  "대화를 부드럽게 시작하면 협력이 수월해질 수 있어요.",
+  "오늘의 작은 배려가 다음 만남을 따뜻하게 만들어요.",
+  "차근차근 쌓은 노력이 든든함으로 이어지는 날이에요.",
+];
 const storySlides = [
   { chapter: "CHAPTER 01", title: "아침을 살펴요", description: "오늘의 날씨와 필요한 정보를 확인하며 하루의 문을 열어요.", image: "/hub-art/morning-door.svg", alt: "햇살이 비치는 작은 현관" },
   { chapter: "CHAPTER 02", title: "나만의 길을 골라요", description: "배우고, 정리하고, 쉬어갈 곳까지 한눈에 찾아요.", image: "/hub-art/connected-doors.svg", alt: "여러 서비스로 이어지는 허브" },
@@ -163,8 +252,8 @@ export default function Home() {
 
   useEffect(() => {
     const now = new Date();
-    const key = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-    setDayIndex(Array.from(key).reduce((total, character) => total + character.charCodeAt(0), 0));
+    const dayNumber = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86_400_000);
+    setDayIndex(dayNumber);
     setTodayLabel(new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" }).format(now));
   }, []);
 
@@ -264,8 +353,8 @@ export default function Home() {
       <section className="daily-wisdom" id="today">
         <div className="daily-heading"><div><span className="eyebrow">A LITTLE NOTE FOR TODAY</span><h2>오늘의 마음 챙김</h2></div><span className="today-date">{todayLabel || "오늘"}</span></div>
         <div className="daily-cards">
-          <article className="quote-card"><span className="daily-label">오늘의 한 문장 <i>✦</i></span><blockquote>“{dailyQuotes[dayIndex % dailyQuotes.length]}”</blockquote><small>my-hub가 전하는 오늘의 문장</small></article>
-          <article className="fortune-card"><div className="fortune-top"><span className="daily-label">오늘의 띠 운세</span><label className="zodiac-picker"><span className="sr-only">띠 선택</span><select value={zodiac} onChange={(event) => setZodiac(event.target.value)}>{zodiacSigns.map((sign) => <option key={sign} value={sign}>{sign}띠</option>)}</select></label></div><h3>{zodiac}띠, 오늘은</h3><p>{zodiacMessages[zodiac]} {dailyMoods[dayIndex % dailyMoods.length]}</p><small>가볍게 즐기는 오늘의 운세예요.</small></article>
+          <article className="quote-card"><span className="daily-label">오늘의 한 문장 <i>✦</i></span><blockquote>“{dailyQuotes[dayIndex % dailyQuotes.length]}”</blockquote><small>my-hub의 오리지널 문장 · 50개 순환</small></article>
+          <article className="fortune-card"><div className="fortune-top"><span className="daily-label">오늘의 띠 운세</span><label className="zodiac-picker"><span className="sr-only">띠 선택</span><select value={zodiac} onChange={(event) => setZodiac(event.target.value)}>{zodiacSigns.map((sign) => <option key={sign} value={sign}>{sign}띠</option>)}</select></label></div><h3>{zodiac}띠, 오늘은</h3><p>{zodiacMessages[zodiac]} {dailyFortunes[dayIndex % dailyFortunes.length]}</p><small>재미로 보는 50개 운세 문장 순환</small></article>
         </div>
       </section>
 
