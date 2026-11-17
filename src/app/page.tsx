@@ -192,6 +192,12 @@ const linkCollections = [
   { title: "개발과 배포", description: "코드 작성부터 배포와 백엔드까지 이어져요.", icon: "🛠️", links: ["https://github.com/", "https://vercel.com/", "https://supabase.com/"] },
   { title: "생활 행정", description: "필요한 공공 서비스를 빠르게 찾아가요.", icon: "🏛️", links: ["https://www.gov.kr/", "https://www.hometax.go.kr/", "https://www.nhis.or.kr/"] },
 ];
+const projectShowcases = [
+  { title: "정부지원사업 모아봄", description: "정부·공공기관 지원사업 탐색 포털", type: "SUPPORT PORTAL", href: "https://gov-support-mu.vercel.app/" },
+  { title: "AI Together", description: "소상공인을 위한 AI 홍보 실습", type: "AI LEARNING", href: "https://ai-together-mu.vercel.app/" },
+  { title: "AutoSites", description: "아이디어를 웹사이트로 만드는 제작 흐름", type: "WEB AUTOMATION", href: "https://autosites-drab.vercel.app/" },
+  { title: "Cursamanworks", description: "홈페이지와 기업 업무 개선 서비스", type: "BUSINESS WEBSITE", href: "https://cursamanworks.kr/" },
+];
 
 export default function Home() {
   const [category, setCategory] = useState("전체");
@@ -326,7 +332,7 @@ export default function Home() {
     <main>
       <header className="topbar">
         <a className="brand" href="#home" aria-label="my-hub 홈"><span className="brand-mark">h</span>my-hub</a>
-        <nav aria-label="주요 메뉴"><a href="#today">오늘의 운세</a><a href="#favorites">즐겨찾기</a><a href="#collections">상황별 모음</a><a href="#shortcuts">모든 링크</a></nav>
+        <nav aria-label="주요 메뉴"><a href="#today">오늘의 운세</a><a href="#favorites">즐겨찾기</a><a href="#collections">상황별 모음</a><a href="#my-sites">내 사이트</a><a href="#shortcuts">모든 링크</a></nav>
         <a className="header-link" href="#favorites">내 포털 <span>↗</span></a>
       </header>
 
@@ -368,6 +374,11 @@ export default function Home() {
       <section className="link-collections" id="collections">
         <div className="section-heading"><div><span className="eyebrow">A GOOD PLACE TO START</span><h2>상황에 맞게 모아봤어요</h2><p>자주 이어 쓰는 사이트를 한 번에 열어보세요.</p></div><span className="count">4 COLLECTIONS</span></div>
         <div className="collection-grid">{collections.map((collection, index) => <article className={`collection-card collection-${index}`} key={collection.title}><div className="collection-title"><span>{collection.icon}</span><div><h3>{collection.title}</h3><p>{collection.description}</p></div></div><div className="collection-links">{collection.items.map((item) => <a href={item.href} target="_blank" rel="noreferrer" key={item.href}><span>{item.icon}</span><b>{item.title}</b><i>↗</i></a>)}</div></article>)}</div>
+      </section>
+
+      <section className="project-showcase" id="my-sites">
+        <div className="section-heading"><div><span className="eyebrow">MADE WITH CARE</span><h2>내가 만든 웹사이트</h2><p>각 프로젝트의 첫 화면을 둘러보고 바로 방문해 보세요.</p></div><span className="count">04 PROJECTS</span></div>
+        <div className="project-grid">{projectShowcases.map((project) => <a className="project-card" href={project.href} target="_blank" rel="noreferrer" key={project.href}><div className="project-image-wrap"><img src={`https://image.thum.io/get/width/1000/crop/700/noanimate/${project.href}`} alt={`${project.title} 사이트 화면 캡처`} loading="lazy"/><span className="project-open">사이트 방문 ↗</span></div><div className="project-meta"><span>{project.type}</span><h3>{project.title}</h3><p>{project.description}</p></div></a>)}</div>
       </section>
 
       <section className="shortcuts" id="shortcuts">
