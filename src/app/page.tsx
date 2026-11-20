@@ -199,7 +199,7 @@ const linkCollections = [
   { title: "개발과 배포", description: "코드 작성부터 배포와 백엔드까지 이어져요.", icon: "🛠️", links: ["https://github.com/", "https://vercel.com/", "https://supabase.com/"] },
   { title: "생활 행정", description: "필요한 공공 서비스를 빠르게 찾아가요.", icon: "🏛️", links: ["https://www.gov.kr/", "https://www.hometax.go.kr/", "https://www.nhis.or.kr/"] },
 ];
-const projectShowcases = [
+const projectShowcases: ProjectShowcase[] = [
   { title: "정부지원사업 모아봄", description: "정부·공공기관 지원사업 탐색 포털", type: "SUPPORT PORTAL", href: "https://gov-support-mu.vercel.app/" },
   { title: "AI Together", description: "소상공인을 위한 AI 홍보 실습", type: "AI LEARNING", href: "https://ai-together-mu.vercel.app/" },
   { title: "AutoSites", description: "아이디어를 웹사이트로 만드는 제작 흐름", type: "WEB AUTOMATION", href: "https://autosites-drab.vercel.app/" },
