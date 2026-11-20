@@ -356,17 +356,17 @@ export default function Home() {
     <main>
       <header className="topbar">
         <a className="brand" href="#home" aria-label="my-hub 홈"><span className="brand-mark">h</span>my-hub</a>
-        <nav aria-label="주요 메뉴"><a href="#today">오늘의 운세</a><a href="#favorites">즐겨찾기</a><a href="#collections">상황별 모음</a><a href="#my-sites">내 사이트</a><a href="#shortcuts">모든 링크</a></nav>
+        <nav aria-label="주요 메뉴"><a href="#my-sites">내 프로젝트</a><a href="#favorites">즐겨찾기</a><a href="#collections">작업별 모음</a><a href="#shortcuts">전체 링크</a><a href="#today">오늘의 재미</a></nav>
         <a className="header-link" href="#favorites">내 포털 <span>↗</span></a>
       </header>
 
       <section className="hero" id="home">
         <div className="hero-copy">
           <span className="eyebrow"><i /> A LITTLE DOOR TO YOUR DAY</span>
-          <h1>하루의 첫 장을 여는<br />작은 현관, <em>my-hub.</em></h1>
-          <p>날씨를 살피고, 갈 곳을 찾고,<br className="desktop-break" /> 오늘의 리듬을 천천히 시작해요.</p>
-          <a className="primary-button" href="#favorites">오늘의 문 열기 <span>↓</span></a>
-          <div className="hero-caption"><span>매일 아침, 나를 위한 작은 출발</span><span>OPEN A NEW DAY</span></div>
+          <h1>오늘의 작업과<br />자주 쓰는 도구를<br /><em>한곳에서.</em></h1>
+          <p>내 프로젝트를 살펴보고, 자주 쓰는 도구를<br className="desktop-break" /> 빠르게 열어보세요.</p>
+          <a className="primary-button" href="#my-sites">내 프로젝트 보기 <span>↓</span></a>
+          <div className="hero-caption"><span>작업으로 이어지는 나만의 시작 화면</span><span>YOUR WORKSPACE</span></div>
         </div>
         <div className="hero-visual">
           <div className="story-carousel hero-carousel" role="region" aria-roledescription="carousel" aria-label="my-hub 이야기 이미지" onMouseEnter={() => setStoryHovered(true)} onMouseLeave={() => setStoryHovered(false)} onFocus={() => setStoryFocused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setStoryFocused(false); }}>
@@ -378,18 +378,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="welcome-strip" id="about"><span>어서 와요, 오늘의 여정은 여기서 시작돼요.</span><span>둘러보고 · 발견하고 · 나만의 속도로</span></section>
+      <section className="welcome-strip" id="about"><span>오늘의 작업과 자주 쓰는 도구를 한곳에서</span><span>프로젝트 · 바로가기 · 작업별 모음</span></section>
 
-      <section className="daily-wisdom" id="today">
-        <div className="daily-heading"><div><span className="eyebrow">A LITTLE NOTE FOR TODAY</span><h2>오늘의 마음 챙김</h2></div><span className="today-date">{todayLabel || "오늘"}</span></div>
-        <div className="daily-cards">
-          <article className="quote-card"><span className="daily-label">오늘의 한 문장 <i>✦</i></span><blockquote>“{dailyQuotes[dayIndex % dailyQuotes.length]}”</blockquote><small>my-hub의 오리지널 문장 · 50개 순환</small></article>
-          <article className="fortune-card"><div className="fortune-top"><span className="daily-label">오늘의 띠 운세</span><label className="zodiac-picker"><span className="sr-only">띠 선택</span><select value={zodiac} onChange={(event) => setZodiac(event.target.value)}>{zodiacSigns.map((sign) => <option key={sign} value={sign}>{sign}띠</option>)}</select></label></div><h3>{zodiac}띠, 오늘은</h3><div className="zodiac-detail"><span>{zodiacYears.join(" · ")}년생</span><span>{zodiacTimes[zodiac]}</span></div><p>{zodiacMessages[zodiac]} {dailyFortunes[dayIndex % dailyFortunes.length]}</p><small>띠 해는 음력 설을 기준으로 달라질 수 있어요. 운세는 재미로 봐주세요.</small></article>
-        </div>
+      <section className="project-showcase" id="my-sites">
+        <div className="section-heading"><div><span className="eyebrow">MY PROJECTS</span><h2>내 프로젝트</h2><p>직접 만든 사이트를 미리 보고 방문해 보세요.</p></div><span className="count">{(vercelProjects.length ? vercelProjects.length : projectShowcases.length).toString().padStart(2, "0")} PROJECTS</span></div>
+        <p className="project-sync-note" aria-live="polite">{vercelSync === "loading" ? "Vercel 프로젝트를 확인하고 있어요…" : vercelSync === "connected" ? "Vercel에서 프로젝트 목록을 가져왔어요." : "기본 프로젝트 목록을 보여드려요."}</p>
+        <div className="project-grid">{(vercelProjects.length ? vercelProjects : projectShowcases).map((project) => <a className="project-card" href={project.href} target="_blank" rel="noreferrer" key={project.id ?? project.href}><div className="project-image-wrap"><img src={`https://image.thum.io/get/width/1000/crop/700/noanimate/${project.href}`} alt={`${project.title} 사이트 화면 캡처`} loading="lazy"/><span className="project-open">사이트 방문 ↗</span></div><div className="project-meta"><span>{project.type}</span><h3>{project.title}</h3><p>{project.description}</p></div></a>)}</div>
       </section>
 
       <section className="favorites-section" id="favorites">
-        <div className="favorites-heading"><div><span className="eyebrow">YOUR PERSONAL HUB</span><h2>내가 고른 바로가기</h2><p>자주 가는 곳을 최대 9개까지 모아보세요.</p></div><div className="favorite-actions"><button className="soft-button" onClick={() => setEditingFavorites((value) => !value)}>{editingFavorites ? "정리 끝" : "순서 정리"}</button><button className="add-button" onClick={() => { setAddingLink((value) => !value); setFormError(""); }}>{addingLink ? "닫기" : "+ 링크 추가"}</button></div></div>
+        <div className="favorites-heading"><div><span className="eyebrow">YOUR PERSONAL HUB</span><h2>즐겨찾기 9개</h2><p>자주 쓰는 도구를 직접 고르고 순서를 정해보세요.</p></div><div className="favorite-actions"><button className="soft-button" onClick={() => setEditingFavorites((value) => !value)}>{editingFavorites ? "정리 끝" : "순서 정리"}</button><button className="add-button" onClick={() => { setAddingLink((value) => !value); setFormError(""); }}>{addingLink ? "닫기" : "+ 링크 추가"}</button></div></div>
         {favoriteMessage && <p className="favorite-message" role="status">{favoriteMessage}</p>}
         {addingLink && <form className="add-link-form" onSubmit={addCustomLink}><label>링크 이름<input required maxLength={30} value={newTitle} onChange={(event) => setNewTitle(event.target.value)} placeholder="예: 나의 작업공간" /></label><label>웹사이트 주소<input required type="url" value={newUrl} onChange={(event) => setNewUrl(event.target.value)} placeholder="https://example.com" /></label><label>분류<select value={newCategory} onChange={(event) => setNewCategory(event.target.value)}>{categories.filter((item) => item !== "전체").map((item) => <option key={item}>{item}</option>)}</select></label><button className="add-button" type="submit">즐겨찾기에 추가</button>{formError && <p className="form-error" role="alert">{formError}</p>}</form>}
         {favorites.length > 0 ? <div className="favorite-grid">{favorites.map((item, index) => <article className="favorite-card" key={getShortcutId(item)}><a className="favorite-main" href={item.href} target="_blank" rel="noreferrer"><span className="favorite-icon">{item.icon}</span><span className="favorite-text"><small>{item.category}</small><strong>{item.title}</strong></span><span className="favorite-arrow">↗</span></a>{editingFavorites && <div className="favorite-controls"><button aria-label={`${item.title} 위로`} disabled={index === 0} onClick={() => moveFavorite(index, -1)}>↑</button><button aria-label={`${item.title} 아래로`} disabled={index === favorites.length - 1} onClick={() => moveFavorite(index, 1)}>↓</button><button aria-label={`${item.title} 즐겨찾기 해제`} onClick={() => toggleFavorite(item)}>×</button></div>}</article>)}</div> : <div className="favorites-empty"><span>✦</span><p>아직 즐겨찾기가 비어 있어요. 아래 목록에서 별표를 눌러 자주 가는 곳을 담아보세요.</p><a href="#shortcuts">링크 둘러보기 ↓</a></div>}
@@ -400,14 +398,8 @@ export default function Home() {
         <div className="collection-grid">{collections.map((collection, index) => <article className={`collection-card collection-${index}`} key={collection.title}><div className="collection-title"><span>{collection.icon}</span><div><h3>{collection.title}</h3><p>{collection.description}</p></div></div><div className="collection-links">{collection.items.map((item) => <a href={item.href} target="_blank" rel="noreferrer" key={item.href}><span>{item.icon}</span><b>{item.title}</b><i>↗</i></a>)}</div></article>)}</div>
       </section>
 
-      <section className="project-showcase" id="my-sites">
-        <div className="section-heading"><div><span className="eyebrow">MADE WITH CARE</span><h2>내가 만든 웹사이트</h2><p>각 프로젝트의 첫 화면을 둘러보고 바로 방문해 보세요.</p></div><span className="count">{(vercelProjects.length ? vercelProjects.length : projectShowcases.length).toString().padStart(2, "0")} PROJECTS</span></div>
-        <p className="project-sync-note" aria-live="polite">{vercelSync === "loading" ? "Vercel 프로젝트를 확인하고 있어요…" : vercelSync === "connected" ? "Vercel에서 프로젝트 목록을 가져왔어요." : "기본 프로젝트 목록을 보여드려요."}</p>
-        <div className="project-grid">{(vercelProjects.length ? vercelProjects : projectShowcases).map((project) => <a className="project-card" href={project.href} target="_blank" rel="noreferrer" key={project.id ?? project.href}><div className="project-image-wrap"><img src={`https://image.thum.io/get/width/1000/crop/700/noanimate/${project.href}`} alt={`${project.title} 사이트 화면 캡처`} loading="lazy"/><span className="project-open">사이트 방문 ↗</span></div><div className="project-meta"><span>{project.type}</span><h3>{project.title}</h3><p>{project.description}</p></div></a>)}</div>
-      </section>
-
       <section className="shortcuts" id="shortcuts">
-        <div className="section-heading"><div><span className="eyebrow">CHOOSE YOUR NEXT DOOR</span><h2>어디로 떠나볼까요?</h2><p>오늘 필요한 문을 골라 다음 장을 열어보세요.</p></div><span className="count">{filtered.length.toString().padStart(2, "0")} DOORS</span></div>
+        <div className="section-heading"><div><span className="eyebrow">ALL LINKS</span><h2>전체 링크</h2><p>검색과 카테고리로 필요한 도구를 찾아보세요.</p></div><span className="count">{filtered.length.toString().padStart(2, "0")} LINKS</span></div>
         <div className="toolbar">
           <div className="filters" aria-label="카테고리 필터">{categories.map((item) => <button key={item} className={category === item ? "selected" : ""} onClick={() => { setCategory(item); setVisibleCount(12); }} aria-pressed={category === item}>{item}</button>)}</div>
           <label className="search"><span aria-hidden="true">⌕</span><input value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(12); }} placeholder="서비스나 키워드 검색" aria-label="서비스 검색" /></label>
@@ -415,6 +407,14 @@ export default function Home() {
         <div className="shortcut-grid">{filtered.slice(0, visibleCount).map((item, index) => <article className="shortcut-card" key={getShortcutId(item)}><div className="card-top"><span className={`shortcut-icon icon-${index % 4}`}>{item.icon}</span><button className={`favorite-toggle ${favoriteIds.includes(getShortcutId(item)) ? "is-active" : ""}`} aria-label={favoriteIds.includes(getShortcutId(item)) ? `${item.title} 즐겨찾기 해제` : `${item.title} 즐겨찾기 추가`} aria-pressed={favoriteIds.includes(getShortcutId(item))} onClick={() => toggleFavorite(item)}>{favoriteIds.includes(getShortcutId(item)) ? "★" : "☆"}</button></div><a className="shortcut-details" href={item.href} target="_blank" rel="noreferrer"><span className="card-category">{item.category}</span><h3>{item.title}</h3><p>{item.description}</p><span className="card-arrow">바로가기 ↗</span></a>{item.id && <button className="delete-custom" onClick={() => removeCustomLink(item)}>내 링크 삭제</button>}</article>)}</div>
         {filtered.length > visibleCount && <button className="load-more" onClick={() => setVisibleCount((count) => count + 12)}>링크 더 보기 <span>＋</span></button>}
         {filtered.length === 0 && <div className="no-results">검색 결과가 없어요. 다른 단어나 카테고리를 선택해 보세요.</div>}
+      </section>
+
+      <section className="daily-wisdom" id="today">
+        <div className="daily-heading"><div><span className="eyebrow">A LITTLE EXTRA</span><h2>오늘의 작은 재미</h2></div><span className="today-date">{todayLabel || "오늘"}</span></div>
+        <div className="daily-cards">
+          <article className="quote-card"><span className="daily-label">오늘의 한 문장 <i>✦</i></span><blockquote>“{dailyQuotes[dayIndex % dailyQuotes.length]}”</blockquote><small>my-hub의 오리지널 문장 · 50개 순환</small></article>
+          <article className="fortune-card"><div className="fortune-top"><span className="daily-label">오늘의 띠 운세</span><label className="zodiac-picker"><span className="sr-only">띠 선택</span><select value={zodiac} onChange={(event) => setZodiac(event.target.value)}>{zodiacSigns.map((sign) => <option key={sign} value={sign}>{sign}띠</option>)}</select></label></div><h3>{zodiac}띠, 오늘은</h3><div className="zodiac-detail"><span>{zodiacYears.join(" · ")}년생</span><span>{zodiacTimes[zodiac]}</span></div><p>{zodiacMessages[zodiac]} {dailyFortunes[dayIndex % dailyFortunes.length]}</p><small>띠 해는 음력 설을 기준으로 달라질 수 있어요. 운세는 재미로 봐주세요.</small></article>
+        </div>
       </section>
 
       <section className="bottom-callout"><div><span className="eyebrow">UNTIL THE NEXT CHAPTER</span><h2>오늘의 여정이 끝나도,<br />이 문은 늘 여기 있어요.</h2></div><a href="#home">첫 장으로 <span>↑</span></a></section>
