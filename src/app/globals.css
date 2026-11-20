@@ -62,3 +62,29 @@ footer{background:#f7efe5}footer>span,footer>small{color:#928475}
 @media(max-width:900px){.project-showcase{padding-left:7%;padding-right:7%}}
 @media(max-width:600px){.project-showcase{padding:58px 6%}.project-grid{grid-template-columns:1fr;gap:11px}.project-meta{padding:13px 14px}.project-open{opacity:1;transform:none}}
 .zodiac-detail{display:flex;flex-wrap:wrap;gap:6px;margin:-1px 0 9px}.zodiac-detail span{padding:5px 8px;border:1px solid #e1d2be;border-radius:20px;background:#fff8ee;color:#897357;font-size:8px;font-weight:700}.fortune-card>small{display:block;line-height:1.6}
+
+/* Quiet winter palette and a light snowfall */
+:root{--ink:#263642;--muted:#71818d;--green:#315a68;--lime:#d8e8e9;--paper:#f5f8f8;--line:#dce6e8;--white:#fbfdfd}
+body{background:var(--paper);color:var(--ink)}
+body::before{position:fixed;inset:0;z-index:5;pointer-events:none;content:"";opacity:.34;background-image:radial-gradient(2px 2px at 18px 32px,#fff 98%,transparent),radial-gradient(1.5px 1.5px at 92px 116px,#fff 98%,transparent),radial-gradient(2px 2px at 176px 54px,#dce9ed 98%,transparent),radial-gradient(1px 1px at 238px 164px,#fff 98%,transparent);background-size:260px 210px;animation:winter-drift 18s linear infinite}
+@keyframes winter-drift{to{background-position:0 210px}}
+.topbar{border-color:#e1e9eb;background:#f8fbfb}
+.brand-mark{background:#315a68;color:#f5fbfb}
+.topbar nav{color:#657783}.topbar nav a:hover{color:#3b8291}
+.header-link{border-color:#d5e2e5;background:#fbfdfd}.header-link span{color:#3b8291}
+.hero{background:radial-gradient(ellipse at 78% 36%,#edf5f4 0,#e5eff0 38%,#e9f0ef 76%,#f0f5f3 100%)}
+.eyebrow{color:#55818b}.hero-copy>.eyebrow i{background:#75a9af;box-shadow:0 0 0 4px #d9e9e9}
+.hero h1 em{color:#3b8291}.hero-copy>p{color:#667984}
+.primary-button{background:#315a68;color:#f8fbfb}.primary-button span{color:#cbe0df}
+.hero-caption{color:#71838b}.visual-ring{border-color:#cddfe1}.ring-two{border-color:#dce9e9}
+.visual-core{background:radial-gradient(circle at 35% 30%,#f8fdfc,#d9e8e7 75%);color:#426c74;box-shadow:0 22px 50px #365e6819}
+.float-card{background:#fbfdfd;box-shadow:0 15px 45px #365e6815}.float-card>span{background:#e8f1f1}.float-card small{color:#7b8e95}.visual-star{color:#6b9aa0}
+.welcome-strip{background:#fbfdfd;border-color:#dce6e8;color:#6e8088}.welcome-strip span:first-child{color:#36515a}
+.section-heading p{color:#71818a}.count{color:#71868d}
+.project-showcase{background:#edf3f3}.project-card{border-color:#dbe7e8;background:#fbfdfd;box-shadow:0 6px 18px #345c6610}.project-image-wrap{background:#e3eeee}.project-meta>span{color:#55818b}.project-meta h3{color:#2e4149}.project-meta p{color:#71818a}.project-open{background:#fbfdfdeb;color:#36545d}
+.favorites-section{background:#f7fafa}.favorites-heading h2,.favorites-heading p{color:#30454d}.favorite-card{border-color:#dce7e8;background:#fbfdfd}.favorite-icon{background:#e6f0f0;color:#416f77}.favorite-text small{color:#66838a}.favorite-arrow{color:#3b8291}.favorite-controls button,.soft-button{border-color:#d7e4e5;color:#4d7079;background:#fbfdfd}.add-button{background:#315a68;color:#f8fbfb}.favorite-message{color:#416f77}.add-link-form{border-color:#dce7e8;background:#fbfdfd}.add-link-form input,.add-link-form select{border-color:#d7e4e5;background:white}
+.link-collections{background:#eaf1f1;border-color:#d9e5e6}.collection-card{border-color:#dbe6e7;background:#f9fcfc;box-shadow:0 6px 18px #345c6609}.collection-title>span{background:#e2eeee}.collection-1 .collection-title>span,.collection-2 .collection-title>span,.collection-3 .collection-title>span{background:#e8efec}.collection-title h3{color:#344d55}.collection-title p{color:#74868b}.collection-links a{border-color:#e1eaea;background:#fcfefe;color:#536d73}.collection-links a:hover{border-color:#a9c8cc;background:#f0f7f7}.collection-links a i{color:#46838c}
+.shortcuts{background:#f8fbfb}.filters button{color:#617680}.filters button.selected{background:#315a68;color:#f8fbfb}.search{border-color:#dce6e8;background:#fbfdfd}.search>span{color:#4d8790}.search input::placeholder{color:#91a0a5}.shortcut-card{border-color:#dce7e8;background:#fbfdfd;box-shadow:0 4px 16px #345c6608}.shortcut-card:hover{box-shadow:0 15px 32px #345c6617}.shortcut-icon,.icon-1,.icon-2,.icon-3{background:#e8f1f1}.card-arrow{color:#3b8291}.card-category{color:#63838a}.shortcut-card p{color:#71818a}.favorite-toggle.is-active{color:#3b8291}.no-results{border-color:#dce7e8;background:#fbfdfd;color:#71818a}
+.daily-wisdom{background:#edf3f3}.quote-card,.fortune-card{border-color:#dbe7e8;background:#f9fcfc;box-shadow:0 7px 22px #345c6609}.quote-card{background:linear-gradient(130deg,#fbfefe,#eaf3f3)}.quote-card:after{color:#d8e7e8}.daily-label{color:#4d818a}.quote-card blockquote{color:#344c54}.quote-card>small,.fortune-card>small{color:#829399}.fortune-card{background:#e4eeee}.fortune-card h3{color:#3c6068}.fortune-card p{color:#60777d}.zodiac-picker select{border-color:#cbdfe0;background:#fbfdfd;color:#46656b;outline-color:#4e8992}.zodiac-detail span{border-color:#cbdfe0;background:#f8fcfc;color:#58777c}.today-date{color:#68858b}
+.bottom-callout{background:#294d59;color:#f8fbfb}.bottom-callout .eyebrow{color:#c8e1e0}.bottom-callout>a{background:#d8e8e9;color:#315a68}footer{background:#f5f8f8}footer>span,footer>small{color:#7b8d92}
+@media(prefers-reduced-motion:reduce){body::before{animation:none}}
