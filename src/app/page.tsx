@@ -134,6 +134,7 @@ const storySlides = [
   { chapter: "CHAPTER 03", title: "가벼운 마음으로 떠나요", description: "작은 바로가기 하나가 오늘의 좋은 흐름이 되도록.", image: "/hub-art/personal-desk.svg", alt: "나만의 바로가기가 정리된 책상" },
 ];
 type Shortcut = { id?: string; title: string; description: string; category: string; icon: string; href: string };
+type ProjectShowcase = { id?: string; title: string; description: string; type: string; href: string };
 const shortcuts: Shortcut[] = [
   { title: "오늘의 날씨", description: "외출 전 날씨와 기온을 확인해요.", category: "생활", icon: "☀️", href: "https://www.weather.go.kr/" },
   { title: "지도와 길찾기", description: "장소를 찾고 이동 경로를 확인해요.", category: "생활", icon: "🧭", href: "https://map.naver.com/" },
@@ -206,6 +207,8 @@ const projectShowcases = [
 ];
 
 export default function Home() {
+  const [vercelProjects, setVercelProjects] = useState<ProjectShowcase[]>([]);
+  const [vercelSync, setVercelSync] = useState<"loading" | "connected" | "fallback">("loading");
   const [category, setCategory] = useState("전체");
   const [query, setQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(12);
@@ -236,6 +239,20 @@ export default function Home() {
     (category === "전체" || item.category === category) &&
     `${item.title} ${item.description} ${item.category}`.toLowerCase().includes(query.toLowerCase())
   ), [allLinks, category, query]);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/vercel-projects")
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Vercel API request failed")))
+      .then((data: { projects?: ProjectShowcase[] }) => {
+        if (!active) return;
+        const projects = Array.isArray(data.projects) ? data.projects : [];
+        setVercelProjects(projects);
+        setVercelSync(projects.length ? "connected" : "fallback");
+      })
+      .catch(() => { if (active) setVercelSync("fallback"); });
+    return () => { active = false; };
+  }, []);
 
   useEffect(() => {
     try {
@@ -384,8 +401,9 @@ export default function Home() {
       </section>
 
       <section className="project-showcase" id="my-sites">
-        <div className="section-heading"><div><span className="eyebrow">MADE WITH CARE</span><h2>내가 만든 웹사이트</h2><p>각 프로젝트의 첫 화면을 둘러보고 바로 방문해 보세요.</p></div><span className="count">04 PROJECTS</span></div>
-        <div className="project-grid">{projectShowcases.map((project) => <a className="project-card" href={project.href} target="_blank" rel="noreferrer" key={project.href}><div className="project-image-wrap"><img src={`https://image.thum.io/get/width/1000/crop/700/noanimate/${project.href}`} alt={`${project.title} 사이트 화면 캡처`} loading="lazy"/><span className="project-open">사이트 방문 ↗</span></div><div className="project-meta"><span>{project.type}</span><h3>{project.title}</h3><p>{project.description}</p></div></a>)}</div>
+        <div className="section-heading"><div><span className="eyebrow">MADE WITH CARE</span><h2>내가 만든 웹사이트</h2><p>각 프로젝트의 첫 화면을 둘러보고 바로 방문해 보세요.</p></div><span className="count">{(vercelProjects.length ? vercelProjects.length : projectShowcases.length).toString().padStart(2, "0")} PROJECTS</span></div>
+        <p className="project-sync-note" aria-live="polite">{vercelSync === "loading" ? "Vercel 프로젝트를 확인하고 있어요…" : vercelSync === "connected" ? "Vercel에서 프로젝트 목록을 가져왔어요." : "기본 프로젝트 목록을 보여드려요."}</p>
+        <div className="project-grid">{(vercelProjects.length ? vercelProjects : projectShowcases).map((project) => <a className="project-card" href={project.href} target="_blank" rel="noreferrer" key={project.id ?? project.href}><div className="project-image-wrap"><img src={`https://image.thum.io/get/width/1000/crop/700/noanimate/${project.href}`} alt={`${project.title} 사이트 화면 캡처`} loading="lazy"/><span className="project-open">사이트 방문 ↗</span></div><div className="project-meta"><span>{project.type}</span><h3>{project.title}</h3><p>{project.description}</p></div></a>)}</div>
       </section>
 
       <section className="shortcuts" id="shortcuts">
