@@ -289,7 +289,7 @@ export default function Home() {
 
   useEffect(() => {
     if (storyHovered || storyFocused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => setActiveStory((current) => (current + 1) % storySlides.length), 3000);
+    const timer = window.setInterval(() => setActiveStory((current) => (current + 1) % storySlides.length), 2000);
     return () => window.clearInterval(timer);
   }, [storyHovered, storyFocused]);
 
@@ -372,7 +372,7 @@ export default function Home() {
           <div className="story-carousel hero-carousel" role="region" aria-roledescription="carousel" aria-label="my-hub 이야기 이미지" onMouseEnter={() => setStoryHovered(true)} onMouseLeave={() => setStoryHovered(false)} onFocus={() => setStoryFocused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setStoryFocused(false); }}>
             <article className="story-slide" key={activeStory} role="group" aria-roledescription="slide" aria-label={`${activeStory + 1} / ${storySlides.length}`}>
               <img src={storySlides[activeStory].image} alt={storySlides[activeStory].alt} />
-              <div className="story-slide-copy"><span className="chapter">{storySlides[activeStory].chapter}</span><h3>{storySlides[activeStory].title}</h3><p>{storySlides[activeStory].description}</p><div className="story-slide-controls"><button type="button" aria-label="이전 이미지" onClick={() => setActiveStory((current) => (current - 1 + storySlides.length) % storySlides.length)}>←</button><div className="story-dots">{storySlides.map((slide, index) => <button type="button" key={slide.chapter} className={index === activeStory ? "active" : ""} aria-label={`${index + 1}번째 이미지 보기`} aria-current={index === activeStory ? "true" : undefined} onClick={() => setActiveStory(index)} />)}</div><button type="button" aria-label="다음 이미지" onClick={() => setActiveStory((current) => (current + 1) % storySlides.length)}>→</button></div><span className="story-auto-note">3초마다 다음 장면으로 넘어가요</span></div>
+              <div className="story-slide-copy"><span className="chapter">{storySlides[activeStory].chapter}</span><h3>{storySlides[activeStory].title}</h3><p>{storySlides[activeStory].description}</p><div className="story-slide-controls"><button type="button" aria-label="이전 이미지" onClick={() => setActiveStory((current) => (current - 1 + storySlides.length) % storySlides.length)}>←</button><div className="story-dots">{storySlides.map((slide, index) => <button type="button" key={slide.chapter} className={index === activeStory ? "active" : ""} aria-label={`${index + 1}번째 이미지 보기`} aria-current={index === activeStory ? "true" : undefined} onClick={() => setActiveStory(index)} />)}</div><button type="button" aria-label="다음 이미지" onClick={() => setActiveStory((current) => (current + 1) % storySlides.length)}>→</button></div><span className="story-auto-note">2초마다 다음 장면으로 넘어가요</span></div>
             </article>
           </div>
         </div>
